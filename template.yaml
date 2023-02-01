@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Serverless Specification template describing your function
+
+
+Resources:
+  App:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      PackageType: Image
+      ImageUri: "lambda-python-ai"
+      Architectures:
+        - x86_64
+      Timeout: 30
+      MemorySize: 512
+      Environment:
+        Variables:
+          AWS_DEFAULT_REGION: "us-east-1"
+          AWS_REGION: "us-east-1"
+          AWS_SECRET_ACCESS_KEY: ""
+          AWS_ACCESS_KEY_ID: ""
+      Events:
+        SNSEvent:
+          Type: SNS
+          Properties:
+            Topic: arn:aws:sns:us-east-1:123456789012:my_topic
+    Metadata:
+      DockerTag: lambda-python-ai
+      Dockerfile: Dockerfile
+      DockerContext: ./lambdas
